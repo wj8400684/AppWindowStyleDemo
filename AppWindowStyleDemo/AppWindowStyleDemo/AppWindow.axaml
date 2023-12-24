@@ -1,0 +1,81 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="using:AppWindowStyleDemo">
+    <!-- default window theme -->
+    <ControlTemplate x:Key="AppWindowDefaultTemplate" TargetType="{x:Type local:AppWindow}">
+        <Panel>
+            <Border Name="PART_TransparencyFallback" IsHitTestVisible="False" />
+            <Border Background="{TemplateBinding Background}" IsHitTestVisible="False" />
+            <Panel Background="Transparent" Margin="{TemplateBinding WindowDecorationMargin}" />
+            <VisualLayerManager>
+                <VisualLayerManager.ChromeOverlayLayer>
+                    <TitleBar />
+                </VisualLayerManager.ChromeOverlayLayer>
+                <ContentPresenter Name="PART_ContentPresenter"
+                                  ContentTemplate="{TemplateBinding ContentTemplate}"
+                                  Content="{TemplateBinding Content}"
+                                  Margin="{TemplateBinding Padding}"
+                                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+            </VisualLayerManager>
+        </Panel>
+    </ControlTemplate>
+
+    <!-- custom window theme -->
+    <ControlTemplate x:Key="AppWindowOnCustomTemplate" TargetType="{x:Type local:AppWindow}">
+        <VisualLayerManager>
+            <Border ClipToBounds="{TemplateBinding ClipToBounds}"
+                    CornerRadius="{TemplateBinding CornerRadius}"
+                    Background="{TemplateBinding Background}">
+                <Panel>
+                    <Border x:Name="PART_TransparencyFallback" IsHitTestVisible="False" />
+                    <Border Background="{TemplateBinding Background}" IsHitTestVisible="False" />
+                    <Panel Margin="{TemplateBinding WindowDecorationMargin}" Background="Transparent" />
+                    <ContentPresenter
+                        x:Name="PART_ContentPresenter"
+                        Margin="{TemplateBinding Padding}"
+                        HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                        VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                        Content="{TemplateBinding Content}"
+                        ContentTemplate="{TemplateBinding ContentTemplate}" />
+                </Panel>
+            </Border>
+        </VisualLayerManager>
+    </ControlTemplate>
+
+    <!-- app window theme-->
+    <ControlTheme TargetType="local:AppWindow" x:Key="{x:Type local:AppWindow}">
+        <Setter Property="Background" Value="{DynamicResource SystemRegionBrush}" />
+        <Setter Property="TransparencyBackgroundFallback" Value="{DynamicResource SystemControlBackgroundAltHighBrush}" />
+        <Setter Property="TopLevel.SystemBarColor" Value="{DynamicResource SystemControlBackgroundAltHighBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource SystemControlForegroundBaseHighBrush}" />
+        <Setter Property="FontSize" Value="{DynamicResource ControlContentThemeFontSize}" />
+        <Setter Property="FontFamily" Value="{DynamicResource ContentControlThemeFontFamily}" />
+        <Setter Property="Template" Value="{StaticResource AppWindowDefaultTemplate}" />
+
+        <!-- ~1~ 如果是mac模式则隐藏标题栏 @1@ -->
+        <Style Selector="^:mac">
+            <Setter Property="ExtendClientAreaToDecorationsHint" Value="True" />
+            <Setter Property="TransparencyLevelHint" Value="AcrylicBlur" />
+            <Setter Property="Background" Value="Transparent" />
+        </Style>
+        <!-- -->
+        <!-- ~1~ 重新定义标题栏 @1@ -->
+        <!-- <Style Selector="^:linux"> -->
+        <!--     <Setter Property="CornerRadius" Value="10" /> -->
+        <!--     <Setter Property="SystemDecorations" Value="None" /> -->
+        <!--     <Setter Property="ExtendClientAreaToDecorationsHint" Value="True" /> -->
+        <!--     <Setter Property="TransparencyLevelHint" Value="AcrylicBlur" /> -->
+        <!--     <Setter Property="Background" Value="Transparent" /> -->
+        <!--     <Setter Property="Template" Value="{StaticResource AppWindowOnCustomTemplate}" /> -->
+        <!-- </Style> -->
+        <!-- -->
+        <!-- ~1~ 重新定义标题栏 @1@ -->
+        <!-- <Style Selector="^:windows"> -->
+        <!--     <Setter Property="CornerRadius" Value="10" /> -->
+        <!--     <Setter Property="ExtendClientAreaTitleBarHeightHint" Value="63" /> -->
+        <!--     <Setter Property="ExtendClientAreaToDecorationsHint" Value="True" /> -->
+        <!--     <Setter Property="Template" Value="{StaticResource AppWindowOnCustomTemplate}" /> -->
+        <!-- </Style> -->
+    </ControlTheme>
+</ResourceDictionary>
